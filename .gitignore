@@ -1,0 +1,4 @@
+app/node_modules
+app/*.log
+app/dist
+app/dist-zip

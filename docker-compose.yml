@@ -1,0 +1,13 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - 9101:8080
+      - 9102:8000
+    # command: /bin/sh
+    command: npm run watch
+    volumes:
+      - ./app:/app
+    stdin_open: true
+    tty: true
