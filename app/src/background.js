@@ -48,7 +48,9 @@ const savePullRequests = (repos, username, token) => {
           repo_name: repo_name,
           title: newPr.title,
           updated_at: newPr.updated_at,
-          url: newPr.html_url
+          url: newPr.html_url,
+          username: newPr.user.login,
+          fromBranchName: newPr.head.ref
         })
       });
     }))

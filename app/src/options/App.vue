@@ -1,5 +1,15 @@
 <template>
   <div class="container-fluid container-option">
+    <div class="list-group">
+      <a  class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 text-muted">aaaaaaaaa</h5>
+          <small>2012-1-1</small>
+        </div>
+        <p class="mb-1">こんなプルリクエストです</p>
+      </a>
+    </div>
+
     <div class="form-group">
       <label for="exampleInputEmail1">GitHub Username</label>
       <input v-model="githubConnectionInformation.username" type="text" class="form-control" placeholder="GitHub Username">
@@ -70,9 +80,6 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-p {
-  font-size: 20px;
-}
 .container-option {
   width: 600px;
   margin: 0 auto;
