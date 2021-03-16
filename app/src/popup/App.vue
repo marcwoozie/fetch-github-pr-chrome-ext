@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <div class="list-group">
+  <div class="popup">
+    <div class="header clearfix fixed-top">
+      <button class="btn btn-xs btn-success float-right">Refresh</button>
+      <p>{{prs.length}} Open Pull Requests</p>
+    </div>
+    <div class="list-group pr-lists">
       <a v-for="pr in prs" v-bind:key="pr.id" target="_blank" v-bind:href="pr.url" class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex">
           <div>
@@ -8,15 +12,14 @@
           </div>
           <div class="w-100 pl-2">
             <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 text-muted">{{pr.repo_name}}</h6>
-              <small>{{pr.updated_at}}</small>
+              <h6 class="mb-1 text-dark">{{pr.repo_name}}</h6>
+              <small class="text-xxs">{{pr.updated_at}}</small>
             </div>
             <p class="mb-1 text-sm">{{pr.title}}</p>
             <p class="mb-1 text-muted text-xs">
               <span>#{{pr.fromBranchName}}</span>
               <span>by {{pr.username}}</span>
             </p>
-
           </div>
         </div>
       </a>
@@ -43,10 +46,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.header {
+  background-color: #f6f8fa;
+  border-bottom: 1px solid rgba(0,0,0,.125);
+}
+.btn-xs {
+  margin: 5px 10px 0 0;
+  padding: 2px 8px; 
+  font-size: 11px;
+}
+.header p {
+  margin: 0;
+  padding: 7px 13px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.pr-lists {
+  margin-top: 32px;
+}
+.list-group-item {
+  border-radius: 0 !important;
+}
 .text-sm {
-  font-size: 16px;
+  font-size: 12px;
 }
 .text-xs {
-  font-size: 12px;
+  font-size: 11px;
+}
+.text-xxs {
+  font-size: 10px;
+}
+.reload-btn {
+  margin: .5rem .5rem 0 0;
 }
 </style>
