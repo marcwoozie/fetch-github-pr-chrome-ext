@@ -1,12 +1,12 @@
 export const get = (entity) => {
-  return new Promise((resolve) => {
-    chrome.storage.sync.get(resolve)
+  return new Promise(resolve => {
+    chrome.storage.sync.get(entity, resolve);
   })
 };
 
 export const set = (entity) => {
-  return new Promise((resolve) => {
-    chrome.storage.sync.set(entity, () => resolve())
+  return new Promise(resolve => {
+    chrome.storage.sync.set(entity, resolve);
   })
 };
 
