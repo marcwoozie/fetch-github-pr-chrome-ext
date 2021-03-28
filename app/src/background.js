@@ -14,22 +14,6 @@ chrome.alarms.onAlarm.addListener(alarm => {
 });
 
 const run = async () => {
-
-  let a = await chromeStorage.get(['token']);
-  console.log(a);
-
-  axios.get(`https://api.github.com/orgs/fookyz/repos`, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `token ${a.token}`,
-    },
-    params: {
-      per_page: 100,
-      page: 1
-    }
-  }).then((res) => {
-    console.log(res);
-  });
   // let storage = await chromeStorage.get(['username', 'token']);  
   // await github.fetchAndSaveRepository(storage.username);
   // let _storage = await chromeStorage.get(['repos']);
