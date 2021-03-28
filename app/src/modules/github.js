@@ -55,8 +55,52 @@ export const fetchAndSaveRepository = (username, perPage = 100, page = 1) => {
   })
 };
 
+export const fetchUserRepository = (username, perPage = 100, page = 1) => {
+  return axios.get(`${ENDPOINT}/users/${username}/repos`, {
+    params: {
+      per_page: perPage,
+      page: page
+    }
+  }).then((res) => {
+    return res.data;
+  })
+};
+
+export const fetchOrgs = (token) => {
+  return axios.get(`${ENDPOINT}/user/orgs`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `token ${token}`,
+    },
+    params: {
+      per_page: 100,
+      page: 1
+    }
+  }).then((res) => {
+    return res.data;
+  });
+}
+
+export const fetchOrgRepository = (org, token) => {
+  return axios.get(`${ENDPOINT}/orgs/${org}/repos`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `token ${token}`,
+    },
+    params: {
+      per_page: 100,
+      page: 1
+    }
+  }).then((res) => {
+    return res.data;
+  });
+}
+
 export default {
   fetchPullRequest: fetchPullRequest,
   fetchAndSaveRepository: fetchAndSaveRepository,
-  fetchAndSavePullRequests: fetchAndSavePullRequests
+  fetchAndSavePullRequests: fetchAndSavePullRequests,
+  fetchOrgs: fetchOrgs,
+  fetchOrgRepository: fetchOrgRepository,
+  fetchUserRepository: fetchUserRepository,
 }

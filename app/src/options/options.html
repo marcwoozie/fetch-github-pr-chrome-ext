@@ -5,12 +5,27 @@
   <title>app - Options</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="options.css">
+  <style>
+    .container-option {
+      width: 600px;
+      margin: 0 auto;
+    }
+    .navbar {
+      background-color: #f6f8fa;
+      border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    .navbar p {
+      margin: 0;
+    }
+  </style>
   <% if (NODE_ENV === 'development') { %>
   <!-- Load some resources only in development environment -->
   <% } %>
 </head>
 <body>
+  <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+    <p class="navbar-brand mr-0 mr-md-2 text-dark font-weight-bold">GitHub Pull Request Checker</p>
+  </header>
   <div id="app"></div>
   <script src="options.js"></script>
 </body>
