@@ -1,4 +1,5 @@
 import chromeStorage from "./modules/chromeStorage";
+import {blank} from "./modules/blank";
 import github from "./modules/github";
 import axios from "axios";
 
@@ -14,10 +15,15 @@ chrome.alarms.onAlarm.addListener(alarm => {
 });
 
 const run = async () => {
-  // let storage = await chromeStorage.get(['username', 'token']);  
-  // await github.fetchAndSaveRepository(storage.username);
-  // let _storage = await chromeStorage.get(['repos']);
-  // github.fetchAndSavePullRequests(storage.username, storage.token, _storage.repos);
+  let storage = await chromeStorage.get(['username', 'token', 'chkRepositories']);
+  if (
+    blank(storage.username) ||
+    blank(storage.token) ||
+    blank(storage.chkRepositories)
+  ) {
+    return;
+  }
+  github.fetchAndSavePullRequests(storage.username, storage.token, storage.chkRepositories);
 }
 
 run();

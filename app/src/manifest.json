@@ -1,7 +1,7 @@
 {
-  "name": "app",
-  "description": "A Vue.js web extension",
-  "version": null,
+  "name": "Fetch GitHub Pull Requests",
+  "description": "You can get Pull Requests on GitHub on a regular basis",
+  "version": 1,
   "manifest_version": 2,
   "icons": {
     "48": "icons/icon_48.png",

@@ -2,16 +2,16 @@
   <div>
     <div class="container-fluid container-option mt-4 clearfix">
       <div class="form-group">
-        <label for="exampleInputEmail1">GitHubユーザー名</label>
+        <label for="exampleInputEmail1">GitHub Username</label>
         <input v-model="githubConnectionInformation.username" type="text" class="form-control" placeholder="GitHub Username">
       </div>
       <div class="form-group">
-        <label for="exampleInputEmail1">GitHubトークン</label>
+        <label for="exampleInputEmail1">GitHub Personal Access Token</label>
         <input v-model="githubConnectionInformation.token" type="password" class="form-control" placeholder="GitHub Token">
-        <small id="emailHelp" class="form-text text-muted">Tokenの取得の仕方はこちらから</small>
+        <small id="emailHelp" class="form-text text-muted">Select scopes is <strong>repo</strong></small>
       </div>
       <div class="form-group">
-        <label for="exampleInputEmail1">取得する感覚</label>
+        <label for="exampleInputEmail1">Interval</label>
         <select v-model="interval" type="password" class="form-control">
           <option v-for="intervalOption in intervalOptions" v-bind:key="intervalOption.key"  v-bind:value="intervalOption.key" v-text="intervalOption.value"></option>
         </select>
@@ -74,15 +74,15 @@ export default Vue.extend({
       intervalOptions: [
         {
           key: 15,
-          value: '15分'
+          value: '15 minutes'
         },
         {
           key: 30,
-          value: '30分'
+          value: '30 minutes'
         },
         {
           key: 60,
-          value: '60分'
+          value: '60 minutes'
         }
       ],
       githubConnectionInformation: {
@@ -116,37 +116,43 @@ export default Vue.extend({
       this.allRepositories = storage.allRepositories == undefined ? [] : storage.allRepositories;
     },
     saveStore() {
-      chrome.storage.sync.set(this.githubConnectionInformation, () => {
-        alert('save')
+      chromeStorage.set(this.githubConnectionInformation).then(() => {
+        alert('Saved!!')
       })
     },
     fetchRepository: async function() {
       this.loading = true;
-      const storage = await chromeStorage.get(['username', 'token']);
-      let userRepositories = await github.fetchUserRepository(storage.username);
-      userRepositories = userRepositories.map(repo => {
-        return {
-          id: repo.id,
-          type: 'user',
-          login: repo.owner.login,
-          name: repo.name
-        };
-      });
-      const orgs = await github.fetchOrgs(storage.token);
-      const orgRepositories = await Promise.all(orgs.map(async(org) => {
-        const repos = await github.fetchOrgRepository(org.login, storage.token);
-        return repos.map(repo => {
+      try {
+        const storage = await chromeStorage.get(['username', 'token']);
+        let userRepositories = await github.fetchUserRepository(storage.username);
+        userRepositories = userRepositories.map(repo => {
           return {
             id: repo.id,
-            type: 'org',
-            login: org.login,
+            type: 'user',
+            login: repo.owner.login,
             name: repo.name
-          }
+          };
         });
-      }));
-      this.allRepositories = userRepositories.concat(orgRepositories.flat(2));
-      chromeStorage.set({'allRepositories': this.allRepositories});
-      this.loading = false;
+        const orgs = await github.fetchOrgs(storage.token);
+
+        const orgRepositories = await Promise.all(orgs.map(async(org) => {
+          const repos = await github.fetchOrgRepository(org.login, storage.token);
+          return repos.map(repo => {
+            return {
+              id: repo.id,
+              type: 'org',
+              login: org.login,
+              name: repo.name
+            }
+          });
+        }));
+        this.allRepositories = userRepositories.concat(orgRepositories.flat(2));
+        chromeStorage.set({'allRepositories': this.allRepositories});
+        this.loading = false;
+      } catch (error) {
+        alert('Sorry,,,Some kind of error has occurred...');
+        this.loading = false;
+      }
     },
   },
   watch: {
