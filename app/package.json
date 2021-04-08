@@ -1,7 +1,7 @@
 {
-  "name": "app",
-  "version": "1.0.0",
-  "description": "A Vue.js web extension",
+  "name": "GitHub Pull Request Checker",
+  "version": "1.0.2",
+  "description": "You can get Pull Requests on GitHub on a regular basis",
   "author": "marcwoozie",
   "license": "MIT",
   "engines": {

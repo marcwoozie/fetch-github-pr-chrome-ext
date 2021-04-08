@@ -28,7 +28,10 @@
       </a>
     </div>
     <div class="p-3 m-0" v-show="!isInitialSettingDone">
-      <div class="alert alert-info m-0">The initial settings have not been completed yet...</div>
+      <div class="alert alert-info m-0">
+        Let's make initial settings on the
+        <a @click="openOptionPage()" href="jacascript:void()"><strong>option page</strong></a>
+      </div>
     </div>
   </div>
 </template>
@@ -43,7 +46,6 @@ import {blank} from "../modules/blank";
 export default {
   async created() {
     const storage = await chromeStorage.get(['username', 'token', 'pullRequests']);
-
     if (
       blank(storage.username) ||
       blank(storage.token)
@@ -53,16 +55,20 @@ export default {
     }
 
     if (storage.pullRequests) {
-      this.pullRequests = storage.pullRequests;    
+      this.pullRequests = storage.pullRequests;
     } else {
       this.pullRequests = [];
     }
   },
   methods: {
+    openOptionPage() {
+      chrome.tabs.create({'url':'options/options.html'})
+    },
     formatDate: (str) => {
       return dayjs(str).format('YYYY/MM/DD HH:mm');
     },
     refresh: async function() {
+      if (!this.isInitialSettingDone) return this.openOptionPage();
       this.loading = true;
       let storage = await chromeStorage.get(['username', 'token', 'chkRepositories']);
       await github.fetchAndSavePullRequests(storage.username, storage.token, storage.chkRepositories);
