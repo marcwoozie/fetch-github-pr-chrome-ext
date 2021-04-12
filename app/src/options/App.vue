@@ -107,16 +107,20 @@ export default Vue.extend({
   },
   methods: {
     init: async function() {
-      const storage = await chromeStorage.get(['username', 'token', 'chkRepositories', 'allRepositories']);
+      const storage = await chromeStorage.get(['username', 'token', 'interval', 'chkRepositories', 'allRepositories']);
       this.githubConnectionInformation = {
         username: storage.username,
         token: storage.token
       }
+      this.interval = storage.interval;
       this.chkRepositories = storage.chkRepositories == undefined ? [] : storage.chkRepositories;
       this.allRepositories = storage.allRepositories == undefined ? [] : storage.allRepositories;
     },
     saveStore() {
-      chromeStorage.set(this.githubConnectionInformation).then(() => {
+      chromeStorage.set({
+        ...this.githubConnectionInformation,
+        interval: this.interval
+      }).then(() => {
         alert('Saved!!')
       })
     },
